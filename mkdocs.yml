@@ -1,0 +1,20 @@
+site_name: HR Policy MCP Server
+site_description: Documentation for the HR Policy + Math MCP server with Keycloak auth
+site_author: OpenSpace
+
+repo_url: https://github.com/abneetwats24/hr-policy-mcp
+
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Architecture: architecture.md
+  - Auth & Security: auth.md
+  - MCP APIs: mcp-apis.md
+
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
