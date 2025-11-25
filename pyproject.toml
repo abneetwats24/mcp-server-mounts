@@ -1,0 +1,21 @@
+[project]
+name = "mcp-server"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "a2a-sdk>=0.3.17",
+    "langchain>=1.1.0",
+    "langchain-community>=0.4.1",
+    "langchain-core>=1.1.0",
+    "langchain-google-genai>=3.2.0",
+    "langchain-huggingface>=1.1.0",
+    "langchain-mcp-adapters>=0.1.14",
+    "langchain-openai>=1.1.0",
+    "langchain-text-splitters>=1.0.0",
+    "langgraph>=1.0.3",
+    "mcp[cli]>=1.22.0",
+    "pypdf2>=3.0.1",
+    "sentence-transformers>=5.1.2",
+]
