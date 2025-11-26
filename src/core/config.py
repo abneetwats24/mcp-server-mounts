@@ -3,7 +3,8 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import Optional
 
-from pydantic import BaseSettings, AnyHttpUrl
+from pydantic import AnyHttpUrl
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
@@ -12,6 +13,12 @@ class Settings(BaseSettings):
     This centralizes server and auth configuration so we don't hardcode
     host/port/issuer/scope in multiple places.
     """
+
+    # Pydantic v2 settings config
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+    )
 
     # MCP server
     MCP_HOST: str = "127.0.0.1"
@@ -26,10 +33,6 @@ class Settings(BaseSettings):
 
     OAUTH_CLIENT_ID: Optional[str] = None
     OAUTH_CLIENT_SECRET: Optional[str] = None
-
-    class Config:
-        env_file = ".env"
-        env_file_encoding = "utf-8"
 
     @property
     def server_url(self) -> str:

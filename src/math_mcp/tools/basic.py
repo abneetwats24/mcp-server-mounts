@@ -6,7 +6,7 @@ from mcp.server.session import ServerSession
 from math_mcp.server import math_mcp
 
 
-@math_mcp.tool
+@math_mcp.tool()
 async def add(
     a: float,
     b: float,
@@ -19,7 +19,7 @@ async def add(
     return result
 
 
-@math_mcp.tool
+@math_mcp.tool()
 async def health(ctx: Context[ServerSession, None] | None = None) -> dict[str, str]:
     """Simple health check for the math MCP server."""
 
@@ -29,7 +29,7 @@ async def health(ctx: Context[ServerSession, None] | None = None) -> dict[str, s
     return {"status": "ok"}
 
 
-@math_mcp.tool
+@math_mcp.tool()
 async def subtract(
     minuend: float,
     subtrahend: float,
