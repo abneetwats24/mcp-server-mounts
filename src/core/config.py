@@ -23,7 +23,9 @@ class Settings(BaseSettings):
     # MCP server
     MCP_HOST: str = "127.0.0.1"
     MCP_PORT: int = 3000
-    MCP_PATH: str = "/mcp"
+    MCP_PATH: str = "" #/.well-known/oauth-protected-resource/MCP_PATH
+    MATH_MCP_PATH: str = "/math"
+    HR_POLICY_MCP_PATH: str = "/hr-policy"
 
     # Auth / Keycloak
     OAUTH_ISSUER_URL: AnyHttpUrl = AnyHttpUrl(
@@ -37,6 +39,14 @@ class Settings(BaseSettings):
     @property
     def server_url(self) -> str:
         return f"http://{self.MCP_HOST}:{self.MCP_PORT}{self.MCP_PATH}"
+
+    @property
+    def math_server_url(self) -> str:
+        return f"http://{self.MCP_HOST}:{self.MCP_PORT}{self.MATH_MCP_PATH}"
+    
+    @property
+    def hr_policy_server_url(self) -> str:
+        return f"http://{self.MCP_HOST}:{self.MCP_PORT}{self.HR_POLICY_MCP_PATH}"
 
     @property
     def introspection_endpoint(self) -> str:

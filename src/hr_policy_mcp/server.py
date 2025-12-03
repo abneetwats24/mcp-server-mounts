@@ -24,8 +24,8 @@ def create_hr_policy_mcp_server() -> FastMCP:
     )
 
     hr_policy_mcp = FastMCP("HR-Policy-MCP-Server",
-            # host=host,
-            # port=port,
+            host=host,
+            port=port,
             token_verifier=token_verifier,
             auth=AuthSettings(
                 issuer_url=str(settings.OAUTH_ISSUER_URL),

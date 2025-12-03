@@ -1146,6 +1146,7 @@ dependencies = [
     { name = "mcp", extra = ["cli"] },
     { name = "pypdf2" },
     { name = "sentence-transformers" },
+    { name = "starlette" },
 ]
 
 [package.metadata]
@@ -1163,6 +1164,7 @@ requires-dist = [
     { name = "mcp", extras = ["cli"], specifier = ">=1.22.0" },
     { name = "pypdf2", specifier = ">=3.0.1" },
     { name = "sentence-transformers", specifier = ">=5.1.2" },
+    { name = "starlette", specifier = ">=0.50.0" },
 ]
 
 [[package]]

@@ -11,6 +11,7 @@ from math_mcp.server import math_mcp            # registers math tools
 from starlette.applications import Starlette
 from starlette.routing import Mount
 import uvicorn
+from contextlib import asynccontextmanager, AsyncExitStack
 
 def setup_logging() -> None:
     logs_dir = Path(__file__).resolve().parents[1] / "logs"
@@ -29,15 +30,23 @@ def setup_logging() -> None:
     )
 
 
-def create_server() -> FastMCP:
-    hr_policy_mcp.settings.streamable_http_path = "/"
-    math_mcp.settings.streamable_http_path = "/"
+@asynccontextmanager
+async def combined_lifespan(app: Starlette):
+    async with AsyncExitStack() as stack:
+        await stack.enter_async_context(hr_policy_mcp.session_manager.run())
+        await stack.enter_async_context(math_mcp.session_manager.run())
+        yield
+
+def create_server() -> Starlette:
+    hr_policy_mcp.settings.streamable_http_path = "/hr-policy"
+    math_mcp.settings.streamable_http_path = "/math"
     # Mount the servers
     main_server = Starlette(
         routes=[
             Mount("/hr-policy", app=hr_policy_mcp.streamable_http_app()),
             Mount("/math", app=math_mcp.streamable_http_app()),
-        ]
+        ],
+        lifespan=combined_lifespan,
     )
     return main_server
 

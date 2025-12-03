@@ -22,8 +22,9 @@ def create_math_mcp_server() -> FastMCP:
     )
 
     math_mcp = FastMCP("Math-Utility-MCP",
-            # host=host,
-            # port=port,
+            json_response=True,
+            host=host,
+            port=port,
             token_verifier=token_verifier,
             auth=AuthSettings(
                 issuer_url=str(settings.OAUTH_ISSUER_URL),
@@ -32,7 +33,7 @@ def create_math_mcp_server() -> FastMCP:
             ),
         )
     
-    return math_mcp 
+    return math_mcp
 
 math_mcp = create_math_mcp_server()
 
