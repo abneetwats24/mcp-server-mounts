@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   mcp-server:
     build: .
@@ -8,6 +6,7 @@ services:
       - "3000:3000"
     volumes:
       - venv_data:/app/.venv
+      - ./logs:/app/logs
     env_file:
       - .env
     restart: unless-stopped
