@@ -66,17 +66,19 @@ class IntrospectionTokenVerifier(TokenVerifier):
                 data = response.json()
                 if not data.get("active", False):
                     return None
-
+                
                 if self.validate_resource and not self._validate_resource(data):
                     logger.warning("Token resource validation failed. Expected: %s", self.resource_url)
                     return None
-
+                logger.debug("data: %s", data)
                 return AccessToken(
                     token=token,
                     client_id=data.get("client_id", "unknown"),
                     scopes=data.get("scope", "").split() if data.get("scope") else [],
                     expires_at=data.get("exp"),
-                    resource=data.get("aud"),
+                    resource=data.get("aud")[0] if isinstance(data.get("aud"), list
+                                                                ) else data.get("aud") if isinstance(
+                                                                    data.get("aud"), str) else None,
                 )
             except Exception as exc:  # pragma: no cover - defensive
                 logger.warning("Token introspection failed: %s", exc)

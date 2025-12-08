@@ -10,6 +10,7 @@ from hr_policy_mcp.server import hr_policy_mcp  # registers HR policy resources
 from math_mcp.server import math_mcp            # registers math tools
 from starlette.applications import Starlette
 from starlette.routing import Mount
+from starlette.middleware.cors import CORSMiddleware
 import uvicorn
 from contextlib import asynccontextmanager, AsyncExitStack
 
@@ -47,6 +48,12 @@ def create_server() -> Starlette:
             Mount("/math", app=math_mcp.streamable_http_app()),
         ],
         lifespan=combined_lifespan,
+    )
+    main_server = CORSMiddleware(
+        main_server,
+        allow_origins=["*"],  # Configure appropriately for production
+        allow_methods=["GET", "POST", "DELETE"],  # MCP streamable HTTP methods
+        expose_headers=["Mcp-Session-Id"],
     )
     return main_server
 
