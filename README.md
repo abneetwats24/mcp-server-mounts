@@ -156,3 +156,16 @@ The server emits two kinds of logs:
   - HR policy resources log reads and failures via `ctx.info(...)` / `ctx.error(...)`.
   - Math tools log operations via `ctx.debug(...)`.
   - These logs are sent back to compatible MCP clients as notifications.
+
+## Keycloak Authentication Server Config
+
+Follow for [Keycloak Configuration](https://modelcontextprotocol.io/docs/tutorials/security/authorization#keycloak-setup)
+
+
+## MCP Auth Well Known
+
+To check well known details: http://127.0.0.1:3000/math/.well-known/oauth-protected-resource
+Should output something like:
+```json
+{"resource":"http://127.0.0.1:3000/","authorization_servers":["http://192.168.10.7:5555/realms/openspace"],"scopes_supported":["mcp:tools"],"bearer_methods_supported":["header"]}
+```
