@@ -5,11 +5,13 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - venv_data:/app/.venv
       - ./logs:/app/logs
+      - uv_cache:/root/.cache/uv  
+      - venv_data:/app/.venv
     env_file:
       - .env
     restart: unless-stopped
 
 volumes:
   venv_data:
+  uv_cache:

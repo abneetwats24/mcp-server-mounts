@@ -26,6 +26,7 @@ class Settings(BaseSettings):
     MCP_PATH: str = "" #/.well-known/oauth-protected-resource/MCP_PATH
     MATH_MCP_PATH: str = "/math"
     HR_POLICY_MCP_PATH: str = "/hr-policy"
+    LOG_LEVEL: str = "INFO"
 
     # Auth / Keycloak
     OAUTH_ISSUER_URL: AnyHttpUrl = AnyHttpUrl(

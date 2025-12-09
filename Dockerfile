@@ -17,6 +17,8 @@ RUN uv sync --frozen --no-install-project
 
 # Copy application source and ancillary files
 COPY src ./src
+COPY static ./static
+
 COPY README.md LICENSE ./
 
 ENV PYTHONPATH=/app/src
