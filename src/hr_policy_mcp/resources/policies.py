@@ -1,35 +1,29 @@
 from __future__ import annotations
 import logging
 
-
-from mcp.server.fastmcp import Context
-from mcp.server.session import ServerSession
-
 from hr_policy_mcp.server import hr_policy_mcp, policy_service
-
-
-# Register each policy as a separate MCP resource.
 logger = logging.getLogger(__name__)
 
+# Register each policy as a separate MCP resource.
 
-@hr_policy_mcp.resource(
-        uri="policy://opportune-posh-policy",
-        name="HR Policy - Opportune Posh Policy",
-        description=f"HR Policy Document: Opportune Posh Policy",
+
+def _register_policy_resource(policy_name: str) -> None:
+    uri = f"policy://{policy_name.lower().replace(' ', '-') }"
+
+    @hr_policy_mcp.resource(
+        uri=uri,
+        name=f"HR Policy - {policy_name}",
+        description=f"HR Policy Document: {policy_name}",
         mime_type="text/plain",
     )
-async def get_policy() -> str:
-    logger.info(f"Reading HR policy Opportune Posh Policy")
+    async def _get_policy() -> str:
+        try:
+            logger.info(f"Reading { policy_name } policy document")
+            return policy_service.get_policy_content(policy_name)
+        except Exception as exc:
+            logger.error(f"Failed to read policy {policy_name}: {exc}")
+            raise
 
-    try:
-        return policy_service.get_policy_content("Opportune Posh Policy")
-    except Exception as exc:
-        logger.error(f"Failed to read policy Opportune Posh Policy: {exc}")
-        raise
 
-@hr_policy_mcp.resource("greeting://{name}", 
-                        name="Personalized Greeting", 
-                        description="Get a personalized greeting")
-async def get_greeting(name) -> str:
-    """Get a personalized greeting"""
-    return f"Hello, {name}!"
+for _policy_name in policy_service.get_policy_names():
+    _register_policy_resource(_policy_name)
