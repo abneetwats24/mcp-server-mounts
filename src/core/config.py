@@ -24,8 +24,8 @@ class Settings(BaseSettings):
     MCP_HOST: str = "127.0.0.1"
     MCP_PORT: int = 3000
     MCP_PATH: str = "" #/.well-known/oauth-protected-resource/MCP_PATH
-    MATH_MCP_PATH: str = "/math"
-    HR_POLICY_MCP_PATH: str = "/hr-policy"
+    MATH_MCP_PATH: str = "/math/math"
+    HR_POLICY_MCP_PATH: str = "/hr-policy/hr-policy"
     LOG_LEVEL: str = "INFO"
 
     # Auth / Keycloak

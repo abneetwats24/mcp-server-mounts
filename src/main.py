@@ -13,6 +13,7 @@ from starlette.routing import Mount
 from starlette.middleware.cors import CORSMiddleware
 import uvicorn
 from contextlib import asynccontextmanager, AsyncExitStack
+from mcp.server.auth.routes import create_protected_resource_routes
 
 def setup_logging() -> None:
     logs_dir = Path(__file__).resolve().parents[1] / "logs"
@@ -42,8 +43,19 @@ def create_server() -> Starlette:
     hr_policy_mcp.settings.streamable_http_path = "/hr-policy"
     math_mcp.settings.streamable_http_path = "/math"
     # Mount the servers
+    settings = get_settings()
     main_server = Starlette(
         routes=[
+            *create_protected_resource_routes(
+                resource_url=settings.math_server_url,
+                authorization_servers=[settings.OAUTH_ISSUER_URL],
+                scopes_supported=["mcp:tools"],
+            ),
+            *create_protected_resource_routes(
+                resource_url=settings.hr_policy_server_url,
+                authorization_servers=[settings.OAUTH_ISSUER_URL],
+                scopes_supported=["mcp:tools"],
+            ),
             Mount("/hr-policy", app=hr_policy_mcp.streamable_http_app()),
             Mount("/math", app=math_mcp.streamable_http_app()),
         ],
@@ -52,7 +64,7 @@ def create_server() -> Starlette:
     main_server = CORSMiddleware(
         main_server,
         allow_origins=["*"],  # Configure appropriately for production
-        allow_methods=["GET", "POST", "DELETE"],  # MCP streamable HTTP methods
+        allow_methods=["GET", "POST", "DELETE", "OPTIONS"],  # MCP streamable HTTP methods
         expose_headers=["Mcp-Session-Id"],
     )
     return main_server
