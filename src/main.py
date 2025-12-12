@@ -64,8 +64,9 @@ def create_server() -> Starlette:
     main_server = CORSMiddleware(
         main_server,
         allow_origins=["*"],  # Configure appropriately for production
-        allow_methods=["GET", "POST", "DELETE", "OPTIONS"],  # MCP streamable HTTP methods
+        allow_methods=["*"],  # MCP streamable HTTP methods
         expose_headers=["Mcp-Session-Id"],
+        allow_headers=["*"]
     )
     return main_server
 
